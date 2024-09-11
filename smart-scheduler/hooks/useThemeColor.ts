@@ -1,17 +1,16 @@
 /**
- * Learn more about light and dark modes:
- * https://docs.expo.dev/guides/color-schemes/
+ * This hook provides theme colors for the app.
+ * Since the app only supports dark mode, it directly uses dark mode colors.
  */
-
-import { useColorScheme } from 'react-native';
 
 import { Colors } from '@/constants/Colors';
 
 export function useThemeColor(
-  props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
+  props: { dark?: string },
+  colorName: keyof typeof Colors.dark
 ) {
-  const theme = useColorScheme() ?? 'light';
+  // Always use 'dark' mode, as light mode is not supported.
+  const theme = 'dark';
   const colorFromProps = props[theme];
 
   if (colorFromProps) {

@@ -1,26 +1,19 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Below are the colors that are used in the app.
+ * This setup aligns with the app's agreed-upon color scheme for dark mode only.
  */
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
 export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
-  },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    background: '#1C1C1E',       // Main background color, very dark grey, almost black
+    text: '#E5E5E7',              // Primary text color, light grey-white for readability
+    secondaryText: '#A3A3A5',     // Secondary or muted text, medium grey for subtle contrast
+    tint: '#4A90E2',              // Accent color for buttons, highlights, and interactive elements, cool blue
+    icon: '#4A90E2',              // Icons matching the accent color
+    tabIconDefault: '#A3A3A5',    // Medium grey for default icons
+    tabIconSelected: '#4A90E2',   // Accent color for selected icons
+    error: '#FF453A',             // Vibrant red for error messages, warnings, and critical alerts
   },
 };
+
+export default Colors;
