@@ -10,7 +10,7 @@ const NewTaskScreen: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.text}>New Task Screen</Text>
       <Button
-        title="Go Back"
+        title="Go Back to Home"
         onPress={() => navigation.goBack()}
       />
     </View>

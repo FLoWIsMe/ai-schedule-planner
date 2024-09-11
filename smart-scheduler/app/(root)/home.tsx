@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Home Screen</Text>
+      <Text style={styles.text}>Home Screen Here</Text>
       <Button
         title="Go to New Task"
         onPress={() => router.push('/screens/Home/NewTaskScreen')}
