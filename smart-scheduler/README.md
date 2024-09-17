@@ -7,5 +7,6 @@
 
 ## Instructions for collaboration
 - Choose an issue on gitlab
+- Create a branch corresponding to the title of the issue
 - Get to crackin
 - If there is any ambiguity, ask any of the other collaborators
