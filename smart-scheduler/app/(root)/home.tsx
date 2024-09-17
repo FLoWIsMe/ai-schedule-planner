@@ -10,7 +10,7 @@ export default function Home() {
       <Text style={styles.text}>Home Screen Here</Text>
       <Button
         title="Go to New Task"
-        onPress={() => router.push('/screens/Home/NewTaskScreen')}
+        onPress={() => router.push('/screens/Onboarding/WelcomeScreen')}
       />
     </View>
   );

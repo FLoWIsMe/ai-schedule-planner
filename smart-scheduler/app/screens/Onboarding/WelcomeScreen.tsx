@@ -8,7 +8,7 @@ const WelcomeScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the Smart Scheduler App!</Text>
+      <Text style={styles.text}>This is Daelyn</Text>
       <Button
         title="Import Google Calendar"
         onPress={() => navigation.navigate('GoogleCalendarIntegration')}
