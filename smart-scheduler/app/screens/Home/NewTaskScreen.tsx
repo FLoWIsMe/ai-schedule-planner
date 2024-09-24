@@ -8,7 +8,7 @@ const NewTaskScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>New Task Screen</Text>
+      <Text style={styles.text}>Hey App Devlopment Club</Text>
       <Button
         title="Go Back to Home"
         onPress={() => navigation.goBack()}

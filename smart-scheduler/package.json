@@ -37,6 +37,7 @@
     "react-native-screens": "3.31.1",
     "react-native-web": "~0.19.10",
     "react-navigation": "^5.0.0",
+    "react-router-dom": "^6.26.2",
     "tensorflow-react-native": "^1.0.5",
     "undefined": "expo-auth-session/providers/google"
   },
