@@ -1,3 +1,9 @@
+/**
+ * @file AddEventModal.jsx
+ * @description Modal component for adding new events to the calendar application.
+ * Provides form inputs for event details including name, date, duration, and priority.
+ */
+
 import React, { useState } from 'react';
 import {
   Modal,
@@ -11,16 +17,38 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { COLORS } from '../constants/theme';
 
+/**
+ * AddEventModal Component
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {boolean} props.visible - Controls modal visibility
+ * @param {Function} props.onClose - Callback function to close the modal
+ * @param {Function} props.onSave - Callback function to save the new event
+ * @returns {JSX.Element} Rendered AddEventModal component
+ */
 const AddEventModal = ({ visible, onClose, onSave }) => {
+  /**
+   * State Management
+   * @state {string} name - Event name
+   * @state {Date} dueDate - Event due date
+   * @state {string} hoursNeeded - Number of hours needed for the event
+   * @state {('low'|'medium'|'high')} priority - Event priority level
+   * @state {boolean} showDatePicker - Controls date picker visibility
+   */
   const [name, setName] = useState('');
   const [dueDate, setDueDate] = useState(new Date());
   const [hoursNeeded, setHoursNeeded] = useState('');
-  const [priority, setPriority] = useState('medium'); // low, medium, high
+  const [priority, setPriority] = useState('medium');
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  /**
+   * Handles saving the new event
+   * Creates event object and passes it to onSave callback
+   */
   const handleSave = () => {
     onSave({
-      id: Date.now().toString(), // Simple unique ID
+      id: Date.now().toString(),
       name,
       dueDate: dueDate.toISOString(),
       hoursNeeded: parseFloat(hoursNeeded),
@@ -31,6 +59,9 @@ const AddEventModal = ({ visible, onClose, onSave }) => {
     onClose();
   };
 
+  /**
+   * Resets form fields to default values
+   */
   const resetForm = () => {
     setName('');
     setDueDate(new Date());
@@ -38,6 +69,12 @@ const AddEventModal = ({ visible, onClose, onSave }) => {
     setPriority('medium');
   };
 
+  /**
+   * Renders a priority selection button
+   * @param {('low'|'medium'|'high')} level - Priority level
+   * @param {string} label - Button label
+   * @returns {JSX.Element} Rendered priority button
+   */
   const renderPriorityButton = (level, label) => (
     <TouchableOpacity
       style={[
@@ -133,6 +170,38 @@ const AddEventModal = ({ visible, onClose, onSave }) => {
     </Modal>
   );
 };
+
+/**
+ * @typedef {Object} EventFormData
+ * @property {string} id - Unique identifier for the event
+ * @property {string} name - Event name
+ * @property {string} dueDate - ISO string of event due date
+ * @property {number} hoursNeeded - Hours needed for the event
+ * @property {('low'|'medium'|'high')} priority - Event priority level
+ * @property {string} createdAt - ISO string of creation timestamp
+ */
+
+/**
+ * Component styles
+ * @constant styles
+ * @type {Object}
+ * @property {Object} modalContainer - Main modal container styles
+ * @property {Object} modalContent - Modal content wrapper styles
+ * @property {Object} modalTitle - Modal title text styles
+ * @property {Object} label - Input label styles
+ * @property {Object} input - Text input styles
+ * @property {Object} dateButton - Date picker button styles
+ * @property {Object} dateButtonText - Date button text styles
+ * @property {Object} priorityContainer - Priority buttons container styles
+ * @property {Object} priorityButton - Priority button styles
+ * @property {Object} selectedPriority - Selected priority button styles
+ * @property {Object} priorityButtonText - Priority button text styles
+ * @property {Object} buttonContainer - Action buttons container styles
+ * @property {Object} button - Base button styles
+ * @property {Object} cancelButton - Cancel button styles
+ * @property {Object} saveButton - Save button styles
+ * @property {Object} buttonText - Button text styles
+ */
 
 const styles = StyleSheet.create({
   modalContainer: {

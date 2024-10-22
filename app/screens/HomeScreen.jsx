@@ -1,4 +1,9 @@
-// HomeScreen.jsx
+/**
+ * @file HomeScreen.jsx
+ * @description Main calendar application screen that displays events in both month and day views.
+ * Allows users to add new events, navigate between views, and access settings.
+ */
+
 import React, { useState, useEffect } from 'react';
 import { 
   View, 
@@ -16,34 +21,63 @@ import { COLORS } from '../constants/theme';
 import { saveEvent, getEvents, deleteEvent } from '../utils/storage';
 import AddEventModal from '../components/AddEventModal';
 
+/**
+ * HomeScreen Component
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.navigation - Navigation object provided by React Navigation
+ * @returns {JSX.Element} Rendered HomeScreen component
+ */
 const HomeScreen = ({ navigation }) => {
+  // State Management
+  /**
+   * @state {string} selectedView - Controls the current view ('month' or 'day')
+   * @state {Date} selectedDate - Tracks the currently selected date
+   * @state {boolean} isModalVisible - Controls the visibility of the Add Event modal
+   * @state {Array<Event>} events - Stores all calendar events
+   */
   const [selectedView, setSelectedView] = useState('month');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [events, setEvents] = useState([]);
 
+  // Effects and Event Management
   useEffect(() => {
     loadEvents();
   }, []);
-  
-  const loadEvents = async () => {
-    const savedEvents = await getEvents();
-    setEvents(savedEvents);
-  };
-  
+
   useEffect(() => {
     fetchGoogleCalendarEvents();
   }, [selectedDate]);
 
+  /**
+   * Loads saved events from storage and updates state
+   * @async
+   */
+  const loadEvents = async () => {
+    const savedEvents = await getEvents();
+    setEvents(savedEvents);
+  };
+
+  /**
+   * Fetches events from Google Calendar API
+   * @async
+   * @todo Implement Google Calendar API integration
+   */
   const fetchGoogleCalendarEvents = async () => {
     try {
-      // TODO: Implement Google Calendar API integration
       console.log('Fetching events...');
     } catch (error) {
       console.error('Error fetching events:', error);
     }
   };
 
+  /**
+   * Saves a new event and refreshes the events list
+   * @async
+   * @param {Event} newEvent - The event object to be saved
+   */
   const handleSaveEvent = async (newEvent) => {
     const success = await saveEvent(newEvent);
     if (success) {
@@ -51,6 +85,10 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  /**
+   * Renders the header component with title and navigation buttons
+   * @returns {JSX.Element}
+   */
   const renderHeader = () => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
@@ -68,6 +106,10 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 
+  /**
+   * Renders the view selector for switching between month and day views
+   * @returns {JSX.Element}
+   */
   const renderViewSelector = () => (
     <View style={styles.viewSelector}>
       <TouchableOpacity 
@@ -85,22 +127,23 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 
+  /**
+   * Renders the list of events for the selected day
+   * @returns {JSX.Element}
+   */
   const renderEventsList = () => {
     const dayEvents = events.filter(event => {
-      // Extract just the date portion from the ISO string
       const eventDate = event.dueDate.split('T')[0];
       return eventDate === selectedDate;
     });
-  
+
     if (dayEvents.length === 0) {
-      return (
-        <Text style={styles.noEventsText}>No events scheduled</Text>
-      );
+      return <Text style={styles.noEventsText}>No events scheduled</Text>;
     }
-  
+
     return (
       <ScrollView style={styles.eventsList}>
-        {dayEvents.map((event, index) => (
+        {dayEvents.map((event) => (
           <View key={event.id} style={styles.eventItem}>
             <Text style={styles.eventTitle}>{event.name}</Text>
             <View style={styles.eventDetails}>
@@ -122,6 +165,10 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
+  /**
+   * Renders the floating action button for adding new events
+   * @returns {JSX.Element}
+   */
   const renderFloatingActionButton = () => (
     <TouchableOpacity 
       style={styles.fab} 
@@ -131,9 +178,12 @@ const HomeScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
+  /**
+   * Creates an object of marked dates for the calendar
+   * Maps events to dates with corresponding priority colors
+   */
   const markedDates = events.reduce((acc, event) => {
     try {
-      // Extract just the date portion from the ISO string
       const dateString = event.dueDate.split('T')[0];
       acc[dateString] = { 
         marked: true, 
@@ -185,6 +235,19 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
+/**
+ * @typedef {Object} Event
+ * @property {string} id - Unique identifier for the event
+ * @property {string} name - Name of the event
+ * @property {string} dueDate - ISO string of the event date and time
+ * @property {number} hoursNeeded - Number of hours needed for the event
+ * @property {('low'|'medium'|'high')} priority - Priority level of the event
+ * @property {string} createdAt - ISO string of creation timestamp
+ */
+
+/**
+ * Component styles
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
