@@ -36,3 +36,14 @@ export const deleteEvent = async (eventId) => {
     return false;
   }
 };
+
+export const deleteAllEvents = async () => {
+    try {
+      await AsyncStorage.removeItem(EVENTS_KEY);
+      return true;
+    } catch (error) {
+      console.error('Error deleting all events:', error);
+      return false;
+    }
+  };
+  
