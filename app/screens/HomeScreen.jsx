@@ -132,33 +132,56 @@ const HomeScreen = ({ navigation }) => {
    * @returns {JSX.Element}
    */
   const renderEventsList = () => {
-    const dayEvents = events.filter(event => {
-      const eventDate = event.dueDate.split('T')[0];
-      return eventDate === selectedDate;
-    });
-
-    if (dayEvents.length === 0) {
+    // 1. Group events by date
+    const groupedEvents = events.reduce((groups, event) => {
+      console.log(event)
+      const dateKey = event.dueDate.split('T')[0];
+      if (!groups[dateKey]) {
+        groups[dateKey] = [];
+      }
+      groups[dateKey].push(event);
+      return groups;
+    }, {});
+  
+    // 2. Sort dates
+    const sortedDates = Object.keys(groupedEvents).sort();
+  
+    if (events.length === 0) {
       return <Text style={styles.noEventsText}>No events scheduled</Text>;
     }
-
+  
     return (
       <ScrollView style={styles.eventsList}>
-        {dayEvents.map((event) => (
-          <View key={event.id} style={styles.eventItem}>
-            <Text style={styles.eventTitle}>{event.name}</Text>
-            <View style={styles.eventDetails}>
-              <Text style={styles.eventTime}>
-                {new Date(event.dueDate).toLocaleTimeString([], { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                })}
-              </Text>
-              <View style={[
-                styles.priorityIndicator, 
-                { backgroundColor: event.priority === 'high' ? '#FF453A' : 
-                                 event.priority === 'medium' ? '#FFB340' : '#34C759' }
-              ]} />
-            </View>
+        {sortedDates.map((date) => (
+          <View key={date} style={styles.dateSection}>
+            <Text style={styles.dateSectionHeader}>
+              {new Date(date).toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </Text>
+            {groupedEvents[date]
+              .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+              .map((event) => (
+                <View key={event.id} style={styles.eventItem}>
+                  <Text style={styles.eventTitle}>{event.name}</Text>
+                  <View style={styles.eventDetails}>
+                    <Text style={styles.eventTime}>
+                      {new Date(event.dueDate).toLocaleTimeString([], { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                      })}
+                    </Text>
+                    <View style={[
+                      styles.priorityIndicator, 
+                      { backgroundColor: event.priority === 'high' ? '#FF453A' : 
+                                       event.priority === 'medium' ? '#FFB340' : '#34C759' }
+                    ]} />
+                  </View>
+                </View>
+            ))}
           </View>
         ))}
       </ScrollView>
@@ -349,6 +372,21 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     padding: 8,
+  },
+  dateSection: {
+    marginBottom: 20,
+  },
+  dateSectionHeader: {
+    color: COLORS.primaryText,
+    fontSize: 18,
+    fontWeight: '600',
+    padding: 16,
+    backgroundColor: 'rgba(255,255,255,0.05)',
+  },
+  eventItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.1)',
   },
 });
 
